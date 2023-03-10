@@ -7,7 +7,7 @@
         </div>
       </div>
       <div class="right-header">
-        <div class="item" v-for="n in 10" :key="n">
+        <div class="item" v-for="n in 15" :key="n">
           <div :class="['content', `item-${n}`]"></div>
         </div>
       </div>
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="right-body"  :style="{ 'grid-template-rows': gridTemplateRows }">
-        <div class="item" v-for="n in 40" :key="n">
+        <div class="item" v-for="n in 60" :key="n">
           <div :class="['content', `item-${n}`]"></div>
         </div>
       </div>
@@ -69,27 +69,23 @@ onMounted(() => {
   overflow: scroll;
 }
 
-// .header {
-//   position: sticky;
-//   top: 0;
-// }
-
 .header,
 .body {
   display: flex;
+  // position: relative;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 
-.left-header {
-  left: 0;
-  z-index: 2;
-}
-
-.left-body {
+.left-header{
+  grid-template-columns: repeat(4, max-content);
   position: sticky;
   left: 0;
-  z-index: 1;
-
 }
 
 .left-header,
@@ -100,14 +96,14 @@ onMounted(() => {
   grid-column-gap: 10px;
   grid-auto-rows: max-content;
   grid-auto-columns: max-content;
-  position: sticky;
-  top: 0;
   .item {
     background: #5cb3cc;
   }
 }
 
 .left-body {
+  position: sticky;
+  left: 0;
   grid-auto-flow: column;
   display: grid;
   grid-row-gap: 10px;

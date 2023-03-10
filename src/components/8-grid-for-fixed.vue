@@ -22,12 +22,10 @@ const rows = ref([undefined, undefined, undefined])
 const gridTemplateRows = computed(() => rows.value.map(item => item ? `${item}px`: 'max-content').join(' '))
 onMounted(() => {
   const rightElements = [...document.getElementsByClassName('right')[0].children]
-  console.log(rightElements)
   rows.value.forEach((val, index, arr) => {
     console.log(rightElements[index].offsetHeight)
     arr[index] = rightElements[index].offsetHeight
   })
-  console.log()
 })
 </script>
 <style lang="less" scoped>

@@ -36,7 +36,7 @@ onMounted(() => {
   const rightElements = [
     ...document.getElementsByClassName("right-body")[0].children,
   ];
-  const leftElements = [
+  const v = [
     ...document.getElementsByClassName("left-body")[0].children,
   ]
   console.log(rightElements);
