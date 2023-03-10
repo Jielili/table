@@ -1,6 +1,6 @@
 <template>
  <div ref="tabelRef" class="container">
-  <div  class="table">
+  <div class="table">
     <div class="header row">
       <div class="col" v-for="(col, index) in columns" :key="index" :style="{ 'flex-basis': `${col.width}px`, 'flex-grow': col.width ? 0: 1 , 'height': `${col.height}px`}" :index="index">
         <div class="right"></div>
@@ -32,13 +32,14 @@ const {
 </script>
 <style lang="less" scoped>
 .container {
-  padding: 40px;
-  border: 1px solid yellow;
+  padding: 40px 200px;
+  border: 10px solid #0085ff;
   overflow: scroll;
+  width: 800px;
+  height: 300px;
 }
+
 .table {
-  width: 600px;
-  padding: 0 40px;
   overflow: scroll;
 }
 
@@ -46,6 +47,7 @@ const {
   width: 60px;
   height: 50px;
   flex-grow: 1;
+  overflow: hidden !important;
   flex-shrink: 0;
   border-right: 1px solid red;
   border-bottom: 1px solid red;

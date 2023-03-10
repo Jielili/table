@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>跳舞小人</title>
+  <style>
+    #person {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 50px;
+      height: 80px;
+      margin-left: -25px;
+      background-image: url("https://picsum.photos/id/237/200/300");
+      background-size: cover;
+      animation-name: dance;
+      animation-duration: 1s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      transform-origin: bottom center;
+    }
+    @keyframes dance {
+      0% { transform: rotate(0deg) scale(1, 1); }
+      50% { transform: rotate(30deg) scale(1.1, 0.9); }
+      100% { transform: rotate(0deg) scale(1, 1); }
+    }
+  </style>
+</head>
+<body>
+  <div id="person"></div>
+  <script>
+    let person = document.getElementById("person");
+    person.addEventListener("click", function() {
+      person.style.animationPlayState = "paused";
+      setTimeout(function() {
+        person.style.animationPlayState = "running";
+      }, 1000);
+    });
+  </script>
+</body>

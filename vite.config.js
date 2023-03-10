@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import legacy from '@vitejs/plugin-legacy'
-
+import vueJsx from '@vitejs/plugin-vue-jsx'
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
@@ -13,7 +13,8 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       less: {
-        javascriptEnabled: true
+        javascriptEnabled: true,
+        requireModuleExtension: true
       }
     }
   },
@@ -21,6 +22,7 @@ export default defineConfig({
     vue(),
     legacy({
       targets: ['defaults', 'not IE 11']
-    })
+    }),
+    vueJsx({})
   ],
 })

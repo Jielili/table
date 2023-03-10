@@ -9,16 +9,53 @@ export default function useDrag () {
 
   const columns = ref([
     {
-      width: 30
+      width: 100,
+      index: 'objectConent',
+      rowSpan: 2,
     },
     {
-      width: 100
+      width: 100,
+      index: 'objectDescription',
     },
     {
-      width: 30
+      width: 100,
+      index: 'krContent',
     },
     {
-      width: 30
+      width: 100,
+      index: 'indicator',
+    },
+    {
+      width: 100,
+      index: 'startTime',
+    },
+    {
+      width: 100,
+      index: 'endTime',
+    },
+    {
+      width: 100,
+      index: '2022111progress',
+    },
+    {
+      width: 100,
+      index: '2022111risk',
+    },
+    {
+      width: 100,
+      index: '2022111comment',
+    },
+    {
+      width: 100,
+      index: '2022120progress',
+    },
+    {
+      width: 100,
+      index: '2022120risk',
+    },
+    {
+      width: 100,
+      index: '2022120comment',
     }
   ])
   const rows = ref([
@@ -31,8 +68,10 @@ export default function useDrag () {
     {
       height: 50
     },
+    {
+      height: 50
+    },
   ])
-
 
   onMounted(() => {
     const table = unref(tabelRef)
@@ -76,7 +115,7 @@ export default function useDrag () {
       const clientY = e.clientY;
       const moveDistance = clientY - originClientY.value;
       const index = Number(el.attributes.index.value)
-      rows.value[index].height = el.clientHeight + moveDistance
+      rows.value[index].height = el.offsetHeight + moveDistance
       originClientY.value = clientY;
     };
   };
@@ -86,7 +125,7 @@ export default function useDrag () {
       const clientX = e.clientX;
       const moveDistance = clientX - originClientX.value;
       const index = Number(el.attributes.index.value)
-      columns.value[index].width = el.clientWidth + moveDistance
+      columns.value[index].width = el.offsetWidth + moveDistance
       originClientX.value = clientX;
     };
   };

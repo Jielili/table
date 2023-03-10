@@ -1,0 +1,25 @@
+
+.main-header,
+.left-header,
+.header-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-rows: max-content;
+  grid-auto-columns: max-content;
+  position: sticky;
+  top: 0;
+  .item {
+    background: #5cb3cc;
+    height: 40px;
+  }
+}
+
+.container {
+  display: flex;
+}
+
+.left {
+  position: sticky;
+  top: 0;
+  left: 0;
+}
