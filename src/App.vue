@@ -11,8 +11,8 @@ import GridForFixed10 from '@/components/10-grid-for-fixed.vue'
 </script>
 
 <template>
-   <!-- <grid-for-fixed /> -->
    <grid-for-fixed-10 />
+   <grid-for-fixed />
    <!-- <grid />
    <single-line />
    <br />

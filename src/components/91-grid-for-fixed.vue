@@ -13,8 +13,8 @@
       </div>
     </div>
     <div class="body">
-      <div class="left-body"  :style="{ 'grid-template-rows': gridTemplateRows }">
-        <div class="item" v-for="n in 12" :key="n">
+      <div class="left-body" :style="{ 'grid-template-rows': gridTemplateRows }">
+        <div :class="['item', `item-${n}-parent`]" v-for="n in 11" :key="n">
           <div :class="['content', `item-${n}`]"></div>
         </div>
       </div>
@@ -40,6 +40,7 @@ onMounted(() => {
     ...document.getElementsByClassName("left-body")[0].children,
   ]
   console.log(rightElements);
+  console.log(document.getElementsByClassName("left-body"))
   rows.value.forEach((val, index, arr) => {
     arr[index] = Math.max(rightElements[index].offsetHeight, leftElements[index].offsetHeight);
   });
@@ -58,6 +59,12 @@ onMounted(() => {
   }
   .item-5 {
     height: 120px;
+  }
+  .item-1 {
+    height: 400px;
+  }
+  .item-1-parent {
+    grid-row-end: span 2;
   }
 }
 
@@ -132,6 +139,10 @@ onMounted(() => {
 
   .item-14 {
     height: 120px;
+  }
+
+  .item-4 {
+    height: 130px;
   }
 }
 </style>

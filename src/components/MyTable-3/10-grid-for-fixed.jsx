@@ -1,15 +1,12 @@
 import { defineComponent, toRefs, computed, ref, onMounted } from 'vue'
 import classes from '@/assets/grid-for-fixed.module.less'
+import resize from './resize'
 export default defineComponent({
   props: {
     columns: {
       type: Array,
       default: () => []
     },
-    rows: {
-      type: Array,
-      default: () => []
-    }, 
     data: {
       type: Array,
       default: () => []
@@ -17,15 +14,31 @@ export default defineComponent({
   },
   setup(props) {
     const { columns, data } = toRefs(props)
+    const rows = ref(new Array(data.value.length).fill(undefined))
+    const columnsHeight = ref({})
     const leftBodyRef = ref()
     const rightBodyRef = ref()
+    const tableRef = ref()
     const leftColumns = computed(() =>columns.value.filter(item => item.fixed === 'left'))
-    const mainColumns = computed(() =>columns.value.filter(item => !item.fixed))
-    const rows = ref(new Array(data.value.length).fill(undefined))
+    const mainColumns = computed(() => columns.value.filter(item => !item.fixed))
+    
+    const getWidths = (cols) => {
+      cols.forEach(col => {
+        if ('children' in col) {
+          getWidths(col.children)
+        } else {
+          columnsHeight.value[col.dataIndex] = col.width
+        }
+      })
+    }
 
+    getWidths(columns.value)
+    
+    resize(tableRef, columns, rows)
     const getHeaderWidth = (cols) => {
       return cols.map((col) => (
-        col.children && col.children.length ? `${col.children.reduce((pre,cur) => pre+cur.width, 0)}px` :`${col.width}px`
+        // col.children && col.children.length ? `${col.children.reduce((pre,cur) => pre+cur.width, 0)}px` :`${col.width}px`
+        col.children && col.children.length ? `max-content` :`${col.width}px`
       )).join(" ")
     }
 
@@ -43,18 +56,19 @@ export default defineComponent({
 
 
 
-    const generateHeaderItems = (cols) => {
-      return cols.reduce((pre, cur) => {
+    const generateHeaderItems = (cols, prefix = '') => {
+      return cols.reduce((pre, cur, curIndex) => {
         pre.push(
           'children' in cur && cur.children.length ?
             <div className={!('children' in cur) &&classes.item}>
               <div className={classes.item}>{cur.title}</div>
-              <div className={classes['header-grid']}>
-                {generateHeaderItems(cur.children)}
+              <div className={classes['header-grid']} style={{ "grid-template-columns": getHeaderWidth(cur.children) }}>
+                {generateHeaderItems(cur.children, `${prefix+curIndex}.children.`)}
               </div>
             </div> :
-            <div className={classes.item}>
+            <div className={classes.item} index={ prefix + curIndex}>
               {cur.title}
+              <div className={classes.right}></div>
             </div>
         )
         return pre
@@ -67,10 +81,11 @@ export default defineComponent({
         if (col.children && col.children.length) {
           items.push(...generateDataItems(col.children))
         } else {
-          data.value.forEach(item => {
+          data.value.forEach((item, dataIndex) => {
             (!col.rowSpan || col.rowSpan(item)) && items.push(
-              <div className={classes.item} style={ col.rowSpan && col.rowSpan(item) && {"grid-row-end": `span ${col.rowSpan(item)}`}}>
+              <div className={classes.item} bottomIndex={ dataIndex } style={ {...(col.rowSpan && col.rowSpan(item) && {"grid-row-end": `span ${col.rowSpan(item)}`})}}>
                 {item[col.dataIndex] || '-'}
+                {col.dataIndex === 'krContent' && <div className={classes.bottom} ></div>}
               </div>
             )
           })
@@ -86,9 +101,6 @@ export default defineComponent({
 
 
     onMounted(() => {
-      // console.log(leftBodyRef.value.children)
-      // console.log(leftBodyRef)
-      // console.log(rightBodyRef.value.children)
       const rightElements = rightBodyRef.value.children
       const leftElements = leftBodyRef.value.children
       const count = rows.value.length
@@ -99,13 +111,13 @@ export default defineComponent({
     })
 
     return () => (
-      <div className={classes.container}>
+      <div className={classes.container} ref={ tableRef }>
           <div className={[classes.header]}>
-          <div className={classes['left-header']} style={{"grid-template-columns": leftHeaderGridTemplateColumns.value}}>
+              <div className={classes['left-header']} style={{"grid-template-columns": leftHeaderGridTemplateColumns.value}}>
                 {leftColumnHeaderItems}
               </div>
               <div className={classes['main-header']} style={{"grid-template-columns": mainHeaderGridTemplateColumns.value}}>
-                  { mainColumnHeaderItems }
+                { mainColumnHeaderItems }
               </div>
           </div>
           <div className={[classes.body]}>
