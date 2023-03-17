@@ -44,7 +44,6 @@ export default function resize(tableRef, columns, rows) {
       const clientY = e.clientY;
       const moveDistance = clientY - originClientY.value;
       const index = Number(el.attributes.bottomIndex.value);
-      console.log(index)
       rows.value[index] = el.offsetHeight + moveDistance;
       originClientY.value = clientY;
     };
@@ -54,8 +53,8 @@ export default function resize(tableRef, columns, rows) {
     return (e) => {
       const clientX = e.clientX;
       const moveDistance = clientX - originClientX.value;
-      const index = Number(el.attributes.index.value);
-      columns.value[index].width = el.offsetWidth + moveDistance;
+      const index = el.attributes.index.value;
+      columns.value[index] = el.offsetWidth + moveDistance;
       originClientX.value = clientX;
     };
   };

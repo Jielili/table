@@ -2,7 +2,6 @@
   <my-table
     :columns="columns"
     ref="tableRef"
-    :rows="rows"
     :data="data"
   ></my-table>
 </template>
@@ -25,7 +24,6 @@ okr.forEach((o, index) => {
       krCount: o.keyResults.length,
       krIndex
     });
-    rows.value.push(undefined);
   });
 });
 
